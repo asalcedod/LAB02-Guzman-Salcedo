@@ -1,0 +1,4 @@
+DEF id1=eval parabre=( id2=xi coma=,  id3=exp parcierr=) dospuntos=: 
+    id4=ans asig= =  FALSE
+    FOR id5=i  IN RANGEparabre=( id6=len parabre=( id3=exp parcierr=) parcierr=)  dospuntos=: 
+        id7=part  Error==?  TRUE Esto es una funcion  Error sintactico syntax error 
