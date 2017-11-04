@@ -34,7 +34,7 @@
 # define YY_YY_LAB02_GUZMAN_SALCEDO_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -46,16 +46,16 @@ extern int yydebug;
   enum yytokentype
   {
     numero = 258,
-    para = 259,
-    parc = 260,
-    coma = 261,
-    igual = 262,
-    mayor = 263,
-    menor = 264,
-    corcha = 265,
-    corchc = 266,
-    puntocoma = 267,
-    id = 268,
+    id = 259,
+    para = 260,
+    parc = 261,
+    coma = 262,
+    igual = 263,
+    mayor = 264,
+    menor = 265,
+    corcha = 266,
+    corchc = 267,
+    puntocoma = 268,
     dospuntos = 269,
     asignar = 270,
     def = 271,
@@ -90,8 +90,9 @@ extern int yydebug;
     incremento = 300,
     mmayor = 301,
     mmenor = 302,
-    comentario = 303,
-    string = 304
+    ErrorLex = 303,
+    comentario = 304,
+    string = 305
   };
 #endif
 

@@ -195,13 +195,13 @@ while     { int i;
                  }
                  return(id);
               }
-{entero}      {printf("entero=%s ",yytext);return(numero);}
-{decimal}     {printf("decimal=%s ",yytext);return(numero);}
+{entero}      {printf("entero=%s ",yytext);}
+{decimal}     {printf("decimal=%s ",yytext);}
 {exp}         {printf("real=%s ",yytext);return(numero);}
-{img}         {printf("imaginario=%s ",yytext);return(numero);}
-{logint}      {printf("long=%s ",yytext);return(numero);}
+{img}         {printf("imaginario=%s ",yytext);}
+{logint}      {printf("long=%s ",yytext);}
 {string}      {printf("cadena=%s ",yytext);return(string);}
-{error}       {printf("Error=%s ",yytext);errores++;}
+{error}       {printf("Error=%s ",yytext);errores++;return(ErrorLex);}
 {comentario}  {return(comentario);}
 . |\n         {linea++;}
 %%

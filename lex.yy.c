@@ -1286,12 +1286,12 @@ YY_RULE_SETUP
 case 56:
 YY_RULE_SETUP
 #line 198 "LAB02_Guzman_Salcedo.l"
-{printf("entero=%s ",yytext);return(numero);}
+{printf("entero=%s ",yytext);}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
 #line 199 "LAB02_Guzman_Salcedo.l"
-{printf("decimal=%s ",yytext);return(numero);}
+{printf("decimal=%s ",yytext);}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
@@ -1301,12 +1301,12 @@ YY_RULE_SETUP
 case 59:
 YY_RULE_SETUP
 #line 201 "LAB02_Guzman_Salcedo.l"
-{printf("imaginario=%s ",yytext);return(numero);}
+{printf("imaginario=%s ",yytext);}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
 #line 202 "LAB02_Guzman_Salcedo.l"
-{printf("long=%s ",yytext);return(numero);}
+{printf("long=%s ",yytext);}
 	YY_BREAK
 case 61:
 /* rule 61 can match eol */
@@ -1317,7 +1317,7 @@ YY_RULE_SETUP
 case 62:
 YY_RULE_SETUP
 #line 204 "LAB02_Guzman_Salcedo.l"
-{printf("Error=%s ",yytext);errores++;}
+{printf("Error=%s ",yytext);errores++;return(ErrorLex);}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP

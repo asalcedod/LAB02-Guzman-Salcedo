@@ -7,15 +7,17 @@
   #include "string.h"
   extern int yylex(void);
   extern char *yytext;
-  extern int linea;
   extern FILE *yyin;
-  void yyerror(char *s);
+  int errors = 0;
+  void yyerror(char const *s);
 %}
 
 /*Declaraciones de Bison */
-
+%define parse.error verbose
+%define parse.trace
 %start FUNCION;
 %token numero
+%token id
 %token para
 %token parc
 %token coma
@@ -25,7 +27,6 @@
 %token corcha
 %token corchc
 %token puntocoma
-%token id
 %token dospuntos
 %token asignar
 %token def
@@ -60,40 +61,55 @@
 %token incremento
 %token mmayor
 %token mmenor
+%token ErrorLex
+
 %token comentario
 %token string
 
-/* Reglas */
+%left def id
+
+ /* Reglas */
 
 %%
 
-FUNCION : id para PARAMETRO parc dospuntos SENTENCIAS {printf(" Esto es una funcion ");}
-        | id para PARAMETRO parc
+FUNCION : def id para PARAMETRO parc dospuntos SENTENCIAS Return VARIABLES {printf(" Esto es una funcion ");}
+        | error SENTENCIAS           
         ;
-PARAMETRO : id coma PARAMETRO
-          | id
-          | numero coma PARAMETRO
-          | numero
+VARIABLES : id
+          | id corcha VARIABLES corchc
+          | id corcha VARIABLES corchc corcha VARIABLES corchc
+          ;
+PARAMETRO : 
+          | VARIABLES coma PARAMETRO
+          | VARIABLES
           ;
 OPERADORES : suma
            | resta
            | multi
            | divi
+           | And
+           | Or
+           | Not
            ;
-OPERACIONES : id OPERADORES OPERACIONES
-            | numero OPERADORES OPERACIONES
-            | numero
-            | id
+OPERACIONES : VARIABLES OPERADORES OPERACIONES
+            | VARIABLES
             ;
-SENTENCIAS : id asignar boleano SENTENCIAS
-           | id asignar string SENTENCIAS
-           | id asignar OPERACIONES SENTENCIAS
-           | id SENTENCIAS
-           | comentario
-           | WHILE
-           | FOR
-           | id
+SENTENCIAS : 
+           | VARIABLES asignar boleano SENTENCIAS
+           | VARIABLES asignar string SENTENCIAS
+           | VARIABLES asignar OPERACIONES SENTENCIAS
+           | VARIABLES SENTENCIAS
+           | comentario SENTENCIAS
+           | WHILE SENTENCIAS
+           | FOR SENTENCIAS
+           | error SENTENCIAS
            ;
+RANGE : Range para id para PARAMETRO parc parc
+      | Range para PARAMETRO parc
+      ;
+SECUENCIA : RANGE
+          | VARIABLES
+          ;
 OPBULEANAS : mayor
            | menor
            | igual
@@ -107,13 +123,9 @@ EXP_BOLEANA : OPERACIONES OPBULEANAS boleano
             | boleano
             | OPERACIONES
             ;
-WHILE : While id EXP_BOLEANA dospuntos SENTENCIAS
+WHILE : While id EXP_BOLEANA dospuntos
       ;
-SECUENCIA : Range para PARAMETRO parc
-          | Range para FUNCION parc
-          | corcha PARAMETRO corchc
-          ;
-FOR : For id In SECUENCIA dospuntos SENTENCIAS
+FOR : For id In SECUENCIA dospuntos
     ;
 
     
@@ -122,9 +134,10 @@ FOR : For id In SECUENCIA dospuntos SENTENCIAS
 
 /* Codigo C */
 
-void yyerror(char *s)
+void yyerror(char const *s)
 {
 	printf(" Error sintactico %s \n",s);
+	errors=errors+1;
 }
 
 void main(int argc, char *argv[]){
@@ -138,9 +151,8 @@ void main(int argc, char *argv[]){
 	else
 		//yyin=stdin;
 		yyin=fopen("entrada.txt","rt");
-		
-	yylex();
 	yyparse();
+	printf("Errores Encontrados: %d \n",errors);
 }
 
 /* Codigo C */
