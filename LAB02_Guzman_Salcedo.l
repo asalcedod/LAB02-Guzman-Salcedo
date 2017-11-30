@@ -1,4 +1,5 @@
 /* Includes y definiciones de variables */
+%option yylineno
 %{
 #include <ctype.h>
 #include <stdio.h>
@@ -13,6 +14,7 @@ int linea=0;
 %}
 
 /* Definiciones Regulares */
+%option yylineno
 boolean     True|true|TRUE|False|false|FALSE
 operadores  [+]|[-]|[*]|[*][*]|[/]|[/][/]|[%]|[<][<]|[>][>]|[&]|[|]|(^)|[~][<]|[>]|[<][=]|[>][=]|[=][=]|[!][=]|[<][>]
 delimitador [[]|[]]|[;]|[:]|[.]|[,]|[>][>][=]|[<][<][=]|[+][=]|[-][=]|[*][=]|[/][=]|[/][/][=]|[&][=]|[*][*][=]|[%][=]
@@ -37,173 +39,70 @@ error       ({entero}{variable})|[^({boolean}|{operadores}|{delimitador}|{numero
 
 %%
 
-and       { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(And); }
-break     { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Break); }
-continue  { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Continue); }
-def       { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(def); }
-elif      { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Elif); }
-else      { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Else); }
-for       { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(For); }
-if        { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(If); }
-import    { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Import); }
-in        { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(In); }
-is        { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Is); }
-not       { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Not); }
-or        { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Or); }
-pass      { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Pass); }
-print     { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Print); }
-range     { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Range); }
-return    { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Return); }
-while     { int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(While); }
-{boolean}     { int i;
-                for (i=0;i<yyleng;i++){
-                  printf ("%c",toupper(yytext[i]));
-                }
-                return(boleano);
-              }
-[[]           {printf("corch_abre=%s ",yytext);return(corcha);}
-[]]           {printf("corch_cierra=%s ",yytext);return(corchc);}
-[;]           {printf("punto_coma=%s ",yytext);}
-[:]           {printf("dospuntos=%s ",yytext);return(dospuntos);}
-[>][>][=]     {printf("muygrande=%s ",yytext);return(mmayor);}
-[<][<][=]     {printf("muypequeño=%s ",yytext);return(mmenor);}
-[+][=]        {printf("incremento=%s ",yytext);return(incremento);}
-[-][=]        {printf("reduccion=%s ",yytext);return(reduccion);}
-[*][=]        {printf("multiplicador=%s ",yytext);return(mcador);}
-[/][=]        {printf("div=%s ",yytext);}
-[/][/][=]     {printf("div_entero=%s ",yytext);return(diventero);}
-[&][=]        {printf("and_igual=%s ",yytext);}
-[*][*][=]     {printf("potenciador=%s ",yytext);}
-[%][=]        {printf("modulador=%s ",yytext);}
-[+]           {printf("suma= %s ",yytext);return(suma);}
-[-]           {printf("menos= %s ",yytext);return(resta);}
-[*]           {printf("mult= %s ",yytext);return(multi);}
-[*][*]|(^)    {printf("potencia= %s ",yytext);}
-{asign}       {printf("asig= %s ",yytext);return(asignar);}
-[/]           {printf("div= %s ",yytext);return(divi);}
-[/][/]        {printf("op_div_entera= %s ",yytext);}
-[%]           {printf("op_mod= %s ",yytext);return(mod);}
-[<][<]        {printf("muy_menor= %s ",yytext);}
-[>][>]        {printf("muy_mayor= %s ",yytext);}
-[&]           {printf("and= %s ",yytext);}
-[~]           {printf("negacion= %s ",yytext);return(negacion);}
-[<]           {printf("menor= %s ",yytext);return(mayor);}
-[>]           {printf("mayor= %s ",yytext);}
-[<][=]        {printf("menor_ig=%s ",yytext);}
-[>][=]        {printf("mayor_ig=%s ",yytext);}
-[=][=]        {printf("comp= %s ",yytext);return(igual);}
-[!][=]|[<][>] {printf("diferente= %s  ",yytext);return(diferente);}
-[(]           {printf("parabre=%s ",yytext);return(para);}
-[)]           {printf("parcierr=%s ",yytext);return(parc);}
-[,]           {printf("coma=%s ",yytext);return(coma);}
-{variable}    {
-                 if(i==1){
-                    ids[i]=strdup(yytext);
-                    printf("id%d=%s ",i,ids[i]);
-                    i++;
-                 }else{
-                    int sw=0;
-                    int j=1;
-                    int pos=0;
-                    while(j<i && sw != 1){
-                      if(strcmp(ids[j],strdup(yytext)) == 0){
-                        sw=1;
-                        pos=j;
-                        j=i+i;
-                      }
-                      j++;
-                    }
-                    if(sw==0){
-                      ids[i]=strdup(yytext);
-                      printf("id%d=%s ",i,ids[i]);
-                      i++;
-                    }else{
-                      printf("id%d=%s ",pos,ids[pos]);
-                    }
-                 }
-                 return(id);
-              }
-{entero}      {printf("entero=%s ",yytext);}
-{decimal}     {printf("decimal=%s ",yytext);}
-{exp}         {printf("real=%s ",yytext);return(numero);}
-{img}         {printf("imaginario=%s ",yytext);}
-{logint}      {printf("long=%s ",yytext);}
-{string}      {printf("cadena=%s ",yytext);return(string);}
-{error}       {printf("Error=%s ",yytext);errores++;return(ErrorLex);}
+and       { return(And); }
+break     { return(Break); }
+continue  { return(Continue); }
+def       { return(def); }
+elif      { return(Elif); }
+else      { return(Else); }
+for       { return(For); }
+if        { return(If); }
+import    { return(Import); }
+in        { return(In); }
+is        { return(Is); }
+not       { return(Not); }
+or        { return(Or); }
+pass      { return(Pass); }
+print     { return(Print); }
+range     { return(Range); }
+return    { return(Return); }
+while     { return(While); }
+{boolean} { return(boleano); }
+[[]           {return(corcha);}
+[]]           {return(corchc);}
+[;]           
+[:]           {return(dospuntos);}
+[>][>][=]     {return(mmayor);}
+[<][<][=]     {return(mmenor);}
+[+][=]        {return(incremento);}
+[-][=]        {return(reduccion);}
+[*][=]        {return(mcador);}
+[/][=]        
+[/][/][=]     {return(diventero);}
+[&][=]        
+[*][*][=]     
+[%][=]        
+[+]           {return(suma);}
+[-]           {return(resta);}
+[*]           {return(multi);}
+[*][*]|(^)    
+{asign}       {return(asignar);}
+[/]           {return(divi);}
+[/][/]        
+[%]           {return(mod);}
+[<][<]        {return(mmenor);}
+[>][>]        {return(mmayor);}
+[&]           
+[~]           {return(negacion);}
+[<]           {return(mayor);}
+[>]           
+[<][=]        
+[>][=]        
+[=][=]        {return(igual);}
+[!][=]|[<][>] {return(diferente);}
+[(]           {return(para);}
+[)]           {return(parc);}
+[,]           {return(coma);}
+{variable}    {return(id);}
+{entero}      {return(numero);}
+{decimal}     {return(numero);}
+{exp}         {return(numero);}
+{img}         {return(numero);}
+{logint}      {return(numero);}
+{string}      {return(string);}
+{error}       {errores++;return(ErrorLex);}
 {comentario}  {return(comentario);}
-. |\n         {linea++;}
+\n            {linea++;}
 %%
 
 /* Reglas */

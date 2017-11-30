@@ -5,6 +5,7 @@
   #include <stdlib.h>
   #include <math.h>
   #include "string.h"
+  extern yylineno;
   extern int yylex(void);
   extern char *yytext;
   extern FILE *yyin;
@@ -72,7 +73,8 @@
 
 %%
 
-FUNCION : def id para PARAMETRO parc dospuntos SENTENCIAS Return VARIABLES {printf(" Esto es una funcion ");}
+FUNCION : IMPORT def id para PARAMETRO parc dospuntos SENTENCIAS Return VARIABLES 
+        | def id para PARAMETRO parc dospuntos SENTENCIAS Return VARIABLES 
         | error SENTENCIAS           
         ;
 VARIABLES : id
@@ -93,6 +95,7 @@ OPERADORES : suma
            ;
 OPERACIONES : VARIABLES OPERADORES OPERACIONES
             | VARIABLES
+            | numero
             ;
 SENTENCIAS : 
            | VARIABLES asignar boleano SENTENCIAS
@@ -102,7 +105,12 @@ SENTENCIAS :
            | comentario SENTENCIAS
            | WHILE SENTENCIAS
            | FOR SENTENCIAS
+           | IF SENTENCIAS
            | error SENTENCIAS
+           | Break SENTENCIAS
+           | Continue SENTENCIAS
+           | Pass SENTENCIAS
+           | Print para PARAMETRO parc SENTENCIAS
            ;
 RANGE : Range para id para PARAMETRO parc parc
       | Range para PARAMETRO parc
@@ -121,14 +129,21 @@ EXP_BOLEANA : OPERACIONES OPBULEANAS boleano
             | OPERACIONES OPBULEANAS OPERACIONES
             | boleano OPBULEANAS OPERACIONES
             | boleano
-            | OPERACIONES
             ;
-WHILE : While id EXP_BOLEANA dospuntos
+WHILE : While EXP_BOLEANA dospuntos
       ;
-FOR : For id In SECUENCIA dospuntos
+FOR : For VARIABLES In SECUENCIA dospuntos
     ;
-
-    
+ELIF : Elif EXP_BOLEANA dospuntos SENTENCIAS ELIF
+     | 
+     ;
+NELIF : corcha ELIF corchc
+      ;
+IF : If EXP_BOLEANA dospuntos NELIF
+   | If EXP_BOLEANA dospuntos SENTENCIAS Else dospuntos 
+   ;
+IMPORT : Import id
+       ;
 %%
 /* Reglas */
 
@@ -136,7 +151,7 @@ FOR : For id In SECUENCIA dospuntos
 
 void yyerror(char const *s)
 {
-	printf(" Error sintactico %s \n",s);
+	printf("Line %d: %s \n",yylineno,s);
 	errors=errors+1;
 }
 

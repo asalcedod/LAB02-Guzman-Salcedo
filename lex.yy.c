@@ -169,7 +169,20 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
 
-    #define YY_LESS_LINENO(n)
+    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
+     *       access to the local variable yy_act. Since yyless() is a macro, it would break
+     *       existing scanners that call yyless() from OUTSIDE yylex. 
+     *       One obvious solution it to make yy_act a global. I tried that, and saw
+     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
+     *       normally declared as a register variable-- so it is not worth it.
+     */
+    #define  YY_LESS_LINENO(n) \
+            do { \
+                int yyl;\
+                for ( yyl = n; yyl < yyleng; ++yyl )\
+                    if ( yytext[yyl] == '\n' )\
+                        --yylineno;\
+            }while(0)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -379,11 +392,11 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[194] =
     {   0,
-        0,    0,   66,   62,   65,   64,   62,   62,   62,   41,
+        0,    0,   66,   62,   64,   65,   62,   62,   62,   41,
        44,   62,   52,   53,   36,   34,   54,   35,   39,   56,
        23,   22,   46,   38,   47,   55,   55,   55,   20,   21,
        37,   55,   55,   55,   55,   55,   55,   55,   55,   55,
-       55,   55,   55,   55,   55,   64,   45,   64,   62,   51,
+       55,   55,   55,   55,   55,   65,   45,   65,   62,   51,
         0,   61,   63,    0,   62,   62,   62,    0,   33,   62,
         0,   31,    0,   37,   28,   26,   56,   27,   40,   29,
         0,   56,   62,   59,   60,   62,   42,   48,    0,   62,
@@ -602,6 +615,14 @@ static yyconst flex_int16_t yy_chk[434] =
       193,  193,  193
     } ;
 
+/* Table of booleans, true if rule could match eol. */
+static yyconst flex_int32_t yy_rule_can_match_eol[66] =
+    {   0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 1, 0, 0, 1, 0,     };
+
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
@@ -618,7 +639,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "LAB02_Guzman_Salcedo.l"
 /* Includes y definiciones de variables */
-#line 3 "LAB02_Guzman_Salcedo.l"
+#line 4 "LAB02_Guzman_Salcedo.l"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -632,7 +653,7 @@ int linea=0;
 /* Definiciones Regulares */
 /*Definiciones Regulares [\"'‘][^"'‘’]*[\"'’]*/
 /* Reglas */
-#line 636 "lex.yy.c"
+#line 657 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -819,10 +840,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 38 "LAB02_Guzman_Salcedo.l"
+#line 40 "LAB02_Guzman_Salcedo.l"
 
 
-#line 826 "lex.yy.c"
+#line 847 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -894,6 +915,16 @@ yy_find_action:
 
 		YY_DO_BEFORE_ACTION;
 
+		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					   
+    yylineno++;
+;
+			}
+
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
@@ -907,430 +938,332 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 40 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(And); }
+#line 42 "LAB02_Guzman_Salcedo.l"
+{ return(And); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 45 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Break); }
+#line 43 "LAB02_Guzman_Salcedo.l"
+{ return(Break); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 50 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Continue); }
+#line 44 "LAB02_Guzman_Salcedo.l"
+{ return(Continue); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 55 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(def); }
+#line 45 "LAB02_Guzman_Salcedo.l"
+{ return(def); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 60 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Elif); }
+#line 46 "LAB02_Guzman_Salcedo.l"
+{ return(Elif); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 65 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Else); }
+#line 47 "LAB02_Guzman_Salcedo.l"
+{ return(Else); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 70 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(For); }
+#line 48 "LAB02_Guzman_Salcedo.l"
+{ return(For); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 75 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(If); }
+#line 49 "LAB02_Guzman_Salcedo.l"
+{ return(If); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 80 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Import); }
+#line 50 "LAB02_Guzman_Salcedo.l"
+{ return(Import); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 85 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(In); }
+#line 51 "LAB02_Guzman_Salcedo.l"
+{ return(In); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 90 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Is); }
+#line 52 "LAB02_Guzman_Salcedo.l"
+{ return(Is); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 95 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Not); }
+#line 53 "LAB02_Guzman_Salcedo.l"
+{ return(Not); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 100 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Or); }
+#line 54 "LAB02_Guzman_Salcedo.l"
+{ return(Or); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 105 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Pass); }
+#line 55 "LAB02_Guzman_Salcedo.l"
+{ return(Pass); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 110 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Print); }
+#line 56 "LAB02_Guzman_Salcedo.l"
+{ return(Print); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 115 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Range); }
+#line 57 "LAB02_Guzman_Salcedo.l"
+{ return(Range); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 120 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(Return); }
+#line 58 "LAB02_Guzman_Salcedo.l"
+{ return(Return); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 125 "LAB02_Guzman_Salcedo.l"
-{ int i;
-            for (i=0;i<yyleng;i++){
-              printf ("%c",toupper(yytext[i]));
-            }
-            return(While); }
+#line 59 "LAB02_Guzman_Salcedo.l"
+{ return(While); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 130 "LAB02_Guzman_Salcedo.l"
-{ int i;
-                for (i=0;i<yyleng;i++){
-                  printf ("%c",toupper(yytext[i]));
-                }
-                return(boleano);
-              }
+#line 60 "LAB02_Guzman_Salcedo.l"
+{ return(boleano); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 136 "LAB02_Guzman_Salcedo.l"
-{printf("corch_abre=%s ",yytext);return(corcha);}
+#line 61 "LAB02_Guzman_Salcedo.l"
+{return(corcha);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 137 "LAB02_Guzman_Salcedo.l"
-{printf("corch_cierra=%s ",yytext);return(corchc);}
+#line 62 "LAB02_Guzman_Salcedo.l"
+{return(corchc);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 138 "LAB02_Guzman_Salcedo.l"
-{printf("punto_coma=%s ",yytext);}
+#line 63 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 139 "LAB02_Guzman_Salcedo.l"
-{printf("dospuntos=%s ",yytext);return(dospuntos);}
+#line 64 "LAB02_Guzman_Salcedo.l"
+{return(dospuntos);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 140 "LAB02_Guzman_Salcedo.l"
-{printf("muygrande=%s ",yytext);return(mmayor);}
+#line 65 "LAB02_Guzman_Salcedo.l"
+{return(mmayor);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 141 "LAB02_Guzman_Salcedo.l"
-{printf("muypequeño=%s ",yytext);return(mmenor);}
+#line 66 "LAB02_Guzman_Salcedo.l"
+{return(mmenor);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 142 "LAB02_Guzman_Salcedo.l"
-{printf("incremento=%s ",yytext);return(incremento);}
+#line 67 "LAB02_Guzman_Salcedo.l"
+{return(incremento);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 143 "LAB02_Guzman_Salcedo.l"
-{printf("reduccion=%s ",yytext);return(reduccion);}
+#line 68 "LAB02_Guzman_Salcedo.l"
+{return(reduccion);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 144 "LAB02_Guzman_Salcedo.l"
-{printf("multiplicador=%s ",yytext);return(mcador);}
+#line 69 "LAB02_Guzman_Salcedo.l"
+{return(mcador);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 145 "LAB02_Guzman_Salcedo.l"
-{printf("div=%s ",yytext);}
+#line 70 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 146 "LAB02_Guzman_Salcedo.l"
-{printf("div_entero=%s ",yytext);return(diventero);}
+#line 71 "LAB02_Guzman_Salcedo.l"
+{return(diventero);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 147 "LAB02_Guzman_Salcedo.l"
-{printf("and_igual=%s ",yytext);}
+#line 72 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 148 "LAB02_Guzman_Salcedo.l"
-{printf("potenciador=%s ",yytext);}
+#line 73 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 149 "LAB02_Guzman_Salcedo.l"
-{printf("modulador=%s ",yytext);}
+#line 74 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 150 "LAB02_Guzman_Salcedo.l"
-{printf("suma= %s ",yytext);return(suma);}
+#line 75 "LAB02_Guzman_Salcedo.l"
+{return(suma);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 151 "LAB02_Guzman_Salcedo.l"
-{printf("menos= %s ",yytext);return(resta);}
+#line 76 "LAB02_Guzman_Salcedo.l"
+{return(resta);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 152 "LAB02_Guzman_Salcedo.l"
-{printf("mult= %s ",yytext);return(multi);}
+#line 77 "LAB02_Guzman_Salcedo.l"
+{return(multi);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 153 "LAB02_Guzman_Salcedo.l"
-{printf("potencia= %s ",yytext);}
+#line 78 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 154 "LAB02_Guzman_Salcedo.l"
-{printf("asig= %s ",yytext);return(asignar);}
+#line 79 "LAB02_Guzman_Salcedo.l"
+{return(asignar);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 155 "LAB02_Guzman_Salcedo.l"
-{printf("div= %s ",yytext);return(divi);}
+#line 80 "LAB02_Guzman_Salcedo.l"
+{return(divi);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 156 "LAB02_Guzman_Salcedo.l"
-{printf("op_div_entera= %s ",yytext);}
+#line 81 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 157 "LAB02_Guzman_Salcedo.l"
-{printf("op_mod= %s ",yytext);return(mod);}
+#line 82 "LAB02_Guzman_Salcedo.l"
+{return(mod);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 158 "LAB02_Guzman_Salcedo.l"
-{printf("muy_menor= %s ",yytext);}
+#line 83 "LAB02_Guzman_Salcedo.l"
+{return(mmenor);}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 159 "LAB02_Guzman_Salcedo.l"
-{printf("muy_mayor= %s ",yytext);}
+#line 84 "LAB02_Guzman_Salcedo.l"
+{return(mmayor);}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 160 "LAB02_Guzman_Salcedo.l"
-{printf("and= %s ",yytext);}
+#line 85 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 161 "LAB02_Guzman_Salcedo.l"
-{printf("negacion= %s ",yytext);return(negacion);}
+#line 86 "LAB02_Guzman_Salcedo.l"
+{return(negacion);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 162 "LAB02_Guzman_Salcedo.l"
-{printf("menor= %s ",yytext);return(mayor);}
+#line 87 "LAB02_Guzman_Salcedo.l"
+{return(mayor);}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 163 "LAB02_Guzman_Salcedo.l"
-{printf("mayor= %s ",yytext);}
+#line 88 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 164 "LAB02_Guzman_Salcedo.l"
-{printf("menor_ig=%s ",yytext);}
+#line 89 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 165 "LAB02_Guzman_Salcedo.l"
-{printf("mayor_ig=%s ",yytext);}
+#line 90 "LAB02_Guzman_Salcedo.l"
+
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 166 "LAB02_Guzman_Salcedo.l"
-{printf("comp= %s ",yytext);return(igual);}
+#line 91 "LAB02_Guzman_Salcedo.l"
+{return(igual);}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 167 "LAB02_Guzman_Salcedo.l"
-{printf("diferente= %s  ",yytext);return(diferente);}
+#line 92 "LAB02_Guzman_Salcedo.l"
+{return(diferente);}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 168 "LAB02_Guzman_Salcedo.l"
-{printf("parabre=%s ",yytext);return(para);}
+#line 93 "LAB02_Guzman_Salcedo.l"
+{return(para);}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 169 "LAB02_Guzman_Salcedo.l"
-{printf("parcierr=%s ",yytext);return(parc);}
+#line 94 "LAB02_Guzman_Salcedo.l"
+{return(parc);}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 170 "LAB02_Guzman_Salcedo.l"
-{printf("coma=%s ",yytext);return(coma);}
+#line 95 "LAB02_Guzman_Salcedo.l"
+{return(coma);}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 171 "LAB02_Guzman_Salcedo.l"
-{
-                 if(i==1){
-                    ids[i]=strdup(yytext);
-                    printf("id%d=%s ",i,ids[i]);
-                    i++;
-                 }else{
-                    int sw=0;
-                    int j=1;
-                    int pos=0;
-                    while(j<i && sw != 1){
-                      if(strcmp(ids[j],strdup(yytext)) == 0){
-                        sw=1;
-                        pos=j;
-                        j=i+i;
-                      }
-                      j++;
-                    }
-                    if(sw==0){
-                      ids[i]=strdup(yytext);
-                      printf("id%d=%s ",i,ids[i]);
-                      i++;
-                    }else{
-                      printf("id%d=%s ",pos,ids[pos]);
-                    }
-                 }
-                 return(id);
-              }
+#line 96 "LAB02_Guzman_Salcedo.l"
+{return(id);}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 198 "LAB02_Guzman_Salcedo.l"
-{printf("entero=%s ",yytext);}
+#line 97 "LAB02_Guzman_Salcedo.l"
+{return(numero);}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 199 "LAB02_Guzman_Salcedo.l"
-{printf("decimal=%s ",yytext);}
+#line 98 "LAB02_Guzman_Salcedo.l"
+{return(numero);}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 200 "LAB02_Guzman_Salcedo.l"
-{printf("real=%s ",yytext);return(numero);}
+#line 99 "LAB02_Guzman_Salcedo.l"
+{return(numero);}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 201 "LAB02_Guzman_Salcedo.l"
-{printf("imaginario=%s ",yytext);}
+#line 100 "LAB02_Guzman_Salcedo.l"
+{return(numero);}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 202 "LAB02_Guzman_Salcedo.l"
-{printf("long=%s ",yytext);}
+#line 101 "LAB02_Guzman_Salcedo.l"
+{return(numero);}
 	YY_BREAK
 case 61:
 /* rule 61 can match eol */
 YY_RULE_SETUP
-#line 203 "LAB02_Guzman_Salcedo.l"
-{printf("cadena=%s ",yytext);return(string);}
+#line 102 "LAB02_Guzman_Salcedo.l"
+{return(string);}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 204 "LAB02_Guzman_Salcedo.l"
-{printf("Error=%s ",yytext);errores++;return(ErrorLex);}
+#line 103 "LAB02_Guzman_Salcedo.l"
+{errores++;return(ErrorLex);}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 205 "LAB02_Guzman_Salcedo.l"
+#line 104 "LAB02_Guzman_Salcedo.l"
 {return(comentario);}
 	YY_BREAK
 case 64:
-#line 207 "LAB02_Guzman_Salcedo.l"
+/* rule 64 can match eol */
+YY_RULE_SETUP
+#line 105 "LAB02_Guzman_Salcedo.l"
+{linea++;}
+	YY_BREAK
 case 65:
-#line 207 "LAB02_Guzman_Salcedo.l"
+YY_RULE_SETUP
+#line 106 "LAB02_Guzman_Salcedo.l"
 ECHO;
 	YY_BREAK
-#line 1334 "lex.yy.c"
+#line 1267 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1691,6 +1624,10 @@ static int yy_get_next_buffer (void)
 
 	*--yy_cp = (char) c;
 
+    if ( c == '\n' ){
+        --yylineno;
+    }
+
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
@@ -1765,6 +1702,11 @@ static int yy_get_next_buffer (void)
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
+
+	if ( c == '\n' )
+		   
+    yylineno++;
+;
 
 	return c;
 }
@@ -2236,6 +2178,9 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
+    /* We do not touch yylineno unless the option is enabled. */
+    yylineno =  1;
+    
     (yy_buffer_stack) = 0;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -2328,7 +2273,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 207 "LAB02_Guzman_Salcedo.l"
+#line 106 "LAB02_Guzman_Salcedo.l"
 
 
 
